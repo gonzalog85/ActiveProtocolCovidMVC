@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout/plantilla :: head">
+	<title>Inicio</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<header th:replace="layout/plantilla :: header" />
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 mt-4">
+				<a th:href="@{/}" class="btn btn-light btn-block">
+					<i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card mt-4">
+
+					<div class="card-header">
+						<h4>Detalle del caso positivo</h4>
+					</div>
+
+					<div class="card-body">
+						<ul>
+							<li>DNI: [[${positivo.dni}]]</li>
+							<li>NOMBRE: [[${positivo.nombre}]]</li>
+							<li>APELLIDO: [[${positivo.apellido}]]</li>
+							<li>TELEFONO: [[${positivo.telefono}]]</li>
+							<li>EMAIL: [[${positivo.email}]]</li>
+						</ul>
+					</div>
+
+					<div th:if="${contactos != null and !contactos.empty}">
+						<!--  tabla  -->
+						<div class="card-header">
+							<h4>Personas aisladas por contacto estrecho</h4>
+						</div>
+
+						<table class="table table-stryped">
+							<thead class="thead-dark">
+								<tr>
+									<th>Persona</th>
+									<th th:text="#{persona.nombre}">Nombre</th>
+									<th th:text="#{persona.dni}">DNI</th>
+									<th th:text="#{persona.email}">Email</th>
+									<th th:text="#{persona.telefono}">Telefono</th>
+									<th th:text="#{persona.estado}"></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="persona : ${contactos}">
+									<td>[[${persona.class.getSimpleName()}]]</td>
+									<td>[[${persona.nombre} + ' ' + ${persona.apellido}]]</td>
+									<td>[[${persona.dni}]]</td>
+									<td>[[${persona.email}]]</td>
+									<td>[[${persona.telefono}]]</td>
+									<td>[[${persona.estado.nombre}]]</td>
+								</tr>
+							</tbody>
+						</table>
+
+
+						<!-- tabla -->
+					</div>
+					<div class="text-center p-2" th:if="${contactos == null or contactos.empty}">
+						<span th:text="#{detalle.lista-vacia}">Lista Vacia</span>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<footer th:replace="layout/plantilla :: footer" />
+</body>
+
+</html>

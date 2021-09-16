@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Listado Docentes</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<section th:fragment="listadoDocentes" id="docentes">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4>[[#{docente.titulo-list}]]</h4>
+						</div>
+						<div th:if="${docentes != null and !docentes.empty}">
+							<table class="table table-stryped">
+								<thead class="thead-dark">
+									<tr>
+										<th>#</th>
+										<th th:text="#{persona.nombre}">Nombre</th>
+										<th th:text="#{persona.dni}">DNI</th>
+										<th th:text="#{persona.email}">Email</th>
+										<th th:text="#{persona.telefono}">Telefono</th>
+										<th></th>
+										<th></th>
+											
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="docente, contador : ${docentes}">
+										<td>[[${contador.count}]]</td>
+										<td>[[${docente.nombre} + ' ' + ${docente.apellido}]]</td>
+										<td>[[${docente.dni}]]</td>
+										<td>[[${docente.email}]]</td>
+										<td>[[${docente.telefono}]]</td>
+										<td>
+											<a th:href="@{/docentes/editar/} + ${docente.idPersona}"
+												class="btn btn-secondary">
+												<i class="fas fa-angle-double-right"></i> [[#{accion.editar}]]
+											</a>
+										</td>
+										
+										<td>
+											<a th:href="@{/docentes/eliminarDocente/} + ${docente.idPersona}"
+												class="btn btn-danger">
+												<i class="fas fa-angle-double-right"></i> [[#{accion.eliminar}]]
+											</a>
+										</td>
+										<!--
+                                            <td>
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/editar/} + ${persona.idPersona}"
+                                                   class="btn btn-secondary">
+                                                    <i class="fas fa-angle-double-right"></i> [[#{accion.editar}]]
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/eliminar(idPersona=${persona.idPersona})}"
+                                                   class="btn btn-danger">
+                                                    <i class="fas fa-angle-double-right"></i> [[#{accion.eliminar}]]
+                                                </a>
+                                            </td>
+                                            -->
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="text-center p-2" th:if="${docentes == null or docentes.empty}">
+							<span th:text="#{persona.lista-vacia}">Lista Vacia</span>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Listado de clases</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+	<section th:fragment="listadoClases" id="clases">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 mt-4 mb-4">
+					<a th:href="@{/clase/agregarClase}" class="btn btn-primary btn-block">
+						<i class="fas fa-plus"></i> [[#{accion.agregar}]]
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4>[[#{clase.titulo-list}]]</h4>
+						</div>
+
+						<div th:if="${clases != null and !clases.empty}">
+							<table class="table table-stryped">
+								<thead class="thead-dark">
+									<tr>
+										<th>#</th>
+										<th th:text="#{clase.nombre}">Nombre</th>
+										<th th:text="#{clase.curso}">Curso</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="c, contador : ${clases}">
+										<td>[[${contador.count}]]</td>
+										<td>[[${c.nombre}]]</td>
+										<td>[[${c.curso.nombre}]]</td>
+										<td>
+											<a th:href="@{/clase/eliminar(idClase=${c.idClase})}"
+												class="btn btn-danger">
+												<i class="fas fa-angle-double-right"></i> [[#{accion.eliminar}]]
+											</a>
+										</td>
+
+										<!--
+										<td>
+											<a th:href="@{/alumnos/editar/} + ${alumno.idPersona}"
+												class="btn btn-secondary">
+												<i class="fas fa-angle-double-right"></i> [[#{accion.editar}]]
+											</a>
+										</td>
+										-->
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="text-center p-2" th:if="${clases == null or clases.empty}">
+							<span th:text="#{clase.lista-vacia}">Lista Vacia</span>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

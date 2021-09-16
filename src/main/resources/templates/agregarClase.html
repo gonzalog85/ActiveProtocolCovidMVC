@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/plantilla :: head">
+	<title>Agregar clase</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+
+	<header th:replace="layout/plantilla :: header"></header>
+
+	<div class="container">
+		<div class="row offset-4">
+			<div class="col-md-3 mt-4">
+				<a th:href="@{/clase/listado}" class="btn btn-light btn-block">
+					<i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-4">
+				<div class="card mt-4">
+					<div class="card-header">
+						<h4>[[#{clase.agregar-titulo}]]</h4>
+					</div>
+
+					<div class="card-body">
+
+						<form th:action="@{/clase/guardarClase}" th:object="${clase}" method="POST"
+							class="was-validated">
+							
+							<div class="form-group">
+                                    <label for="nombre" th:text="#{clase.nombre}">Nombre</label>
+                                    <input type="text" class="form-control" name="nombre" required="true"/>
+                                </div>
+                                
+                                <div class="form-group">
+                                <select class="form-select" aria-label="cursos" th:field="*{curso}">
+									<option th:value="''">Seleccione un Curso</option>
+									<option th:each="c : ${allCursos}" th:value="${c.idCurso}"
+										th:text="${c.nombre}"></option>
+								</select>
+                                </div>
+
+							<div>
+								<button class="btn btn-primary" type="submit"
+									th:text="#{accion.guardar}">Guardar</button>
+							</div>
+
+
+
+						</form>
+
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<footer th:replace="layout/plantilla :: footer"></footer>
+
+</body>
+
+</html>

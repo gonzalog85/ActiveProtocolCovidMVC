@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout/plantilla :: head">
+	<title>Inicio</title>
+	<meta charset="UTF-8" />
+</head>
+
+<body>
+
+	<header th:replace="layout/plantilla :: header" />
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card mt-4">
+					<div class="card-header">
+						<h4>[[#{activar.titulo-list}]]</h4>
+					</div>
+
+					<div class="container">
+						<form th:action="@{/inicioProtocolo/dni/dias}" th:object="${personaForm}" method="GET">
+
+							<input type="number" th:field="*{dni}" class="form-control col-md-4 mt-4"
+								placeholder="Ingresa el Dni de la Persona" name="dni" required="true"
+								th:errorclass="'form-control alert-danger'" />
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></small>
+							<input type="number" th:field="*{dias}" class="form-control col-md-4 mt-4"
+								placeholder="Ingresa los dias previos a considerar" name="dias" required="true" th:errorclass="'form-control alert-danger'"/>
+								<small class="form-text text-danger" th:if="${#fields.hasErrors('dias')}" th:errors="*{dias}"></small>
+								
+								<div>
+							<button type="submit" class="btn btn-success mt-4 mb-4">Buscar</button>								
+								</div>
+						</form>
+					</div>
+
+					<div th:if="${busqueda != null}">
+						<!--  tabla  -->
+
+						<table class="table table-stryped">
+							<thead >
+								<tr>
+									<th>Persona</th>
+									<th th:text="#{persona.nombre}">Nombre</th>
+									<th th:text="#{persona.dni}">DNI</th>
+									<th th:text="#{persona.email}">Email</th>
+									<th th:text="#{persona.telefono}">Telefono</th>
+									<th th:if="${busqueda.protocolo == null}"></th>
+									<th th:if="${busqueda.protocolo != null}">[[#{persona.estado}]]</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="persona : ${busqueda}">
+									<td>[[${persona.class.getSimpleName()}]]</td>
+									<td>[[${persona.nombre} + ' ' + ${persona.apellido}]]</td>
+									<td>[[${persona.dni}]]</td>
+									<td>[[${persona.email}]]</td>
+									<td>[[${persona.telefono}]]</td>
+									<td th:if="${persona.protocolo == null}">
+										<a th:href="@{/inicioProtocolo/iniciar(id=${persona.idPersona}, dias=${personaForm.dias})}"
+											class="btn btn-secondary">
+											<i class="fas fa-angle-double-right"></i> [[#{activar.boton}]]
+										</a>
+									</td>
+									<td th:if="${persona.protocolo != null}">
+										[[${persona.estado.nombre}]]
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<!-- tabla -->
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div th:if="${busqueda != null and contactos != null and !contactos.empty}" class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card mt-4">
+					<div class="card-header">
+						<h4>Contacto estrecho</h4>
+					</div>
+
+					<div th:if="${contactos != null and !contactos.empty}">
+						<!--  tabla  -->
+
+
+						<table class="table table-stryped">
+							<thead class="thead-dark">
+								<tr>
+									<th>Persona</th>
+									<th th:text="#{persona.nombre}">Nombre</th>
+									<th th:text="#{persona.dni}">DNI</th>
+									<th th:text="#{persona.email}">Email</th>
+									<th th:text="#{persona.telefono}">Telefono</th>
+									<th th:if="contactos != null">Estado</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="persona : ${contactos}">
+									<td>[[${persona.class.getSimpleName()}]]</td>
+									<td>[[${persona.nombre} + ' ' + ${persona.apellido}]]</td>
+									<td>[[${persona.dni}]]</td>
+									<td>[[${persona.email}]]</td>
+									<td>[[${persona.telefono}]]</td>
+
+									<td th:if="${persona.protocolo != null}">
+										<span>positivo</span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<!-- tabla -->
+					
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</div>
+
+	<footer th:replace="layout/plantilla :: footer" />
+	
+</body>
+
+</html>

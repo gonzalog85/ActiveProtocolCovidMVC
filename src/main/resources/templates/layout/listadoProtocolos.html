@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Listado Personas</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <section th:fragment="listadoProtocolos" id="protocolos">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="card mt-4">
+                            <div class="card-header">
+                                <h4>[[#{protocolo.titulo-list}]]</h4>
+                            </div>
+                            <div th:if="${protocolos != null and !protocolos.empty}">
+                                <table class="table table-stryped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th th:text="#{persona.nombre}">Nombre</th>
+                                            <th th:text="Inicio">Inicio</th>
+                                            <th th:text="Fin">Fin</th>
+                                            <th></th>
+                                            <th></th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="protocolo, contador : ${protocolos}">
+                                            <td>[[${contador.count}]]</td>
+                                            <td>[[${protocolo.nombre}]]</td>
+                                            <td>[[${#dates.format(protocolo.fechaInicio, 'dd-MMMM-yyyy')}]]</td>
+                                            <td>[[${#dates.format(protocolo.fechaFin, 'dd-MMMM-yyyy')}]]</td>
+                                            
+                                            <td>
+                                                <a th:href="@{/detalle/} + ${protocolo.idProtocolo}"
+                                                   class="btn btn-secondary">
+                                                    <i class="fas fa-angle-double-right"></i> [[#{accion.detalle}]]
+                                                </a>
+                                            </td>
+                                            
+                                            <td>
+                                                <a th:href="@{/eliminar(idProtocolo=${protocolo.idProtocolo})}"
+                                                   class="btn btn-danger">
+                                                    <i class="fas fa-angle-double-right"></i> [[#{accion.eliminar}]]
+                                                </a>
+                                            </td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${protocolos == null or protocolos.empty}">
+                                <span th:text="#{protocolo.lista-vacia}">Lista Vacia</span>
+                            </div>
+                        </div>
+                    </div>
+
+					
+					 <div class="col-md-3">
+                        <div class="card text-center bg-danger text-white mt-4 mb-3">
+                            <div class="card-body">
+                                <h3 th:text="Protocolos">Activos</h3>
+                                <h4 class="display-4">
+                                  <i class=" fas fa-shield-virus"></i>  [[${totalProtocolos}]]
+                                </h4>
+                            </div>
+                        </div>
+                        
+                        <div class="card text-center bg-success text-white mb-3">
+                            <div class="card-body">
+                                <h3 th:text="Afectados">Total Afectados</h3>
+                                <h4 class="display-4">
+                                    <i class="fas fa-users"></i> [[${totalPersonas}]]
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
